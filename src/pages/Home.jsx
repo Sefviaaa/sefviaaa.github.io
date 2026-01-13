@@ -24,8 +24,8 @@ export const Home = () => {
       {/* Main Content */}
       <main>
         <HeroSection />
-        <AboutSection />
         <ProjectsSection />
+        <AboutSection />
         <ToolsSection />
         <CertificationsSection />
         <EducationSection />

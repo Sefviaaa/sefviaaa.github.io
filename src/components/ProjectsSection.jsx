@@ -1,25 +1,28 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
-
-const projects = [
-  {
-    id: 1,
-    title: "Banking Transaction Data Pipeline",
-    description:
-      "End-to-end batch data engineering pipeline for processing inter-bank payment transactions with ETL, data warehousing, and analytics dashboards.",
-    image: "/projects/banking-pipeline.png.jpg",
-    tags: ["Python", "BigQuery", "Airflow", "dbt", "Terraform", "Docker"],
-    demoUrl: "https://lookerstudio.google.com/reporting/3e5c5ca1-4f0a-4bdc-966a-fe3b4264704a",
-    githubUrl: "https://github.com/Sefviaaa/banking-transaction-pipeline",
-  },
-];
+import { useState } from "react";
+import { ProjectModal } from "./ProjectModal";
+import { projects } from "../data/projects";
 
 export const ProjectsSection = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           {" "}
-          Featured <span className="text-primary"> Projects </span>
+          Featured <span className="text-primary">Projects </span>
         </h2>
 
         <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
@@ -31,24 +34,21 @@ export const ProjectsSection = () => {
           {projects.map((project, key) => (
             <div
               key={key}
-              className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover"
+              className="group bg-card rounded-lg overflow-hidden shadow-xs card-hover cursor-pointer"
+              onClick={() => openModal(project)}
             >
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                className="block h-48 overflow-hidden cursor-pointer"
-              >
+              <div className="block h-48 overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-              </a>
+              </div>
 
               <div className="p-6">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag) => (
-                    <span className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground">
+                    <span key={tag} className="px-2 py-1 text-xs font-medium border rounded-full bg-secondary text-secondary-foreground">
                       {tag}
                     </span>
                   ))}
@@ -63,6 +63,8 @@ export const ProjectsSection = () => {
                     <a
                       href={project.demoUrl}
                       target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="text-foreground/80 hover:text-primary transition-colors duration-300"
                     >
                       <ExternalLink size={20} />
@@ -70,6 +72,8 @@ export const ProjectsSection = () => {
                     <a
                       href={project.githubUrl}
                       target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="text-foreground/80 hover:text-primary transition-colors duration-300"
                     >
                       <Github size={20} />
@@ -85,12 +89,20 @@ export const ProjectsSection = () => {
           <a
             className="cosmic-button w-fit flex items-center mx-auto gap-2"
             target="_blank"
+            rel="noopener noreferrer"
             href="https://github.com/Sefviaaa"
           >
             Check My Github <ArrowRight size={16} />
           </a>
         </div>
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </section>
   );
 };
