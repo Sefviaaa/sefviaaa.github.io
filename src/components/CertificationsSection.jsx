@@ -2,6 +2,12 @@ import { Award } from "lucide-react";
 
 const certifications = [
   {
+    name: "Data Engineer",
+    issuer: "DataCamp",
+    focus: "Professional Certification",
+    date: "Jan 2026",
+  },
+  {
     name: "Data Engineer Associate",
     issuer: "DataCamp",
     focus: "SQL",
